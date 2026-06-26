@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Error banner for localStorage failures (dismissible) -->
+  <div id="error-banner" role="alert" aria-live="polite" hidden>
+    <span id="error-banner-message"></span>
+    <button id="error-banner-close" type="button" aria-label="Dismiss error">✕</button>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <button id="theme-toggle" type="button" aria-label="Toggle dark/light mode">☀</button>
+    <h1>Expense &amp; Budget Visualizer</h1>
+  </header>
+
+  <!-- ===== BALANCE DISPLAY ===== -->
+  <section aria-label="Total balance">
+    <p class="balance-label">TOTAL BALANCE</p>
+    <p id="balance-display" class="balance-value">$0.00</p>
+  </section>
+
+  <!-- ===== MAIN TWO-COLUMN SECTION ===== -->
+  <main>
+
+    <!-- Left column: Add Transaction form + Spending Limit control -->
+    <div class="col-left">
+
+      <!-- Add Transaction Form -->
+      <section aria-labelledby="add-transaction-heading">
+        <h2 id="add-transaction-heading">Add Transaction</h2>
+        <form id="transaction-form" novalidate>
+          <div class="field-group">
+            <label for="item-name">Item Name</label>
+            <input
+              type="text"
+              id="item-name"
+              name="item-name"
+              maxlength="100"
+              placeholder="e.g. Lunch"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="amount">Amount</label>
+            <input
+              type="text"
+              id="amount"
+              name="amount"
+              inputmode="decimal"
+              placeholder="e.g. 12.50"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+          </div>
+
+          <button type="submit">Add Transaction</button>
+        </form>
+      </section>
+
+      <!-- Spending Limit Control -->
+      <section aria-labelledby="spending-limit-heading">
+        <h2 id="spending-limit-heading">Spending Limit</h2>
+        <form id="spending-limit-form" novalidate>
+          <div class="field-group">
+            <label for="spending-limit-input">Limit Amount</label>
+            <input
+              type="text"
+              id="spending-limit-input"
+              name="spending-limit"
+              inputmode="decimal"
+              placeholder="e.g. 500.00"
+              autocomplete="off"
+            />
+          </div>
+          <button type="submit">Set Limit</button>
+        </form>
+      </section>
+
+    </div><!-- /.col-left -->
+
+    <!-- Right column: Chart panel -->
+    <div class="col-right">
+      <section aria-labelledby="chart-heading">
+        <h2 id="chart-heading">Spending by Category</h2>
+        <div class="chart-container">
+          <canvas id="chart-canvas" role="img" aria-label="Pie chart of spending by category"></canvas>
+          <p id="chart-error" hidden></p>
+        </div>
+      </section>
+    </div><!-- /.col-right -->
+
+  </main>
+
+  <!-- ===== TRANSACTIONS SECTION ===== -->
+  <section aria-labelledby="transactions-heading">
+    <div class="transactions-header">
+      <h2 id="transactions-heading">Transactions</h2>
+      <div class="sort-control">
+        <label for="sort-select">Sort:</label>
+        <select id="sort-select" name="sort">
+          <option value="default">Default</option>
+          <option value="amount_asc">Amount ↑</option>
+          <option value="amount_desc">Amount ↓</option>
+          <option value="category_asc">Category A→Z</option>
+        </select>
+      </div>
+    </div>
+
+    <ul id="transaction-list" aria-label="Transaction list"></ul>
+    <p id="empty-state">No transactions yet</p>
+  </section>
+
+  <!-- Chart.js v4 from CDN (loaded before app.js so Chart is available) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <!-- Application logic -->
+  <script src="js/app.js" defer></script>
+
+</body>
+</html>
